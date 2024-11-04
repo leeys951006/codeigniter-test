@@ -24,7 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				          <a class="nav-link car-maint" href="/board2">게시판2</a>
 				        </li>
 					</div>
-				<button type="button" class="btn btn-primary">Login</button>	
+					<button type="button" class="btn btn-primary">
+   			 	<a class="Login_button text-white text-decoration-none" href="/members/login">Login</a>
+					</button>
 			</nav>
 		</header>
 

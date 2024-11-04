@@ -62,6 +62,9 @@ $route['board/update/(:num)']['put'] = 'board/update/$1';
 $route['board/delete/(:num)']['delete'] = 'board/delete/$1';
 
 //Board2
-$rout['board2'] = "board2/index";
+$route['board2/(:num)'] = "board2/index";
 $route['board2/create'] = "board2/create";
 $route['board2/make']['post'] = "board2/make";
+$route['board2/edit/(:num)'] = 'board2/edit/$1';
+$route['board2/update/(:num)']['put'] = 'board2/update/$1';
+$route['board2/delete/(:num)']['delete'] = 'board2/delete/$1';

@@ -69,6 +69,7 @@ class Board_model extends CI_Model {
 		$data = [
 			'cont_title' => $this->input->post('cont_title'),
 			'cont_detail' => $this->input->post('cont_detail'),
+			'cont_updated_at' => date("Y-m-d H:i:s"),
 		];
 
 		$result = $this->db->where('cont_id', $cont_id)->update('content', $data);

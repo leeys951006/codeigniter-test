@@ -43,7 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<td><?=$ls->cont_created_at;?></td>
 				<td>
 					<a href="/board2/show/<?=$ls->cont_id;?>">View</a>
-					<!-- <a href="/board/edit/<?=$ls->cont_id;?>">Edit</a> -->
+					<a href="/board2/edit/<?=$ls->cont_id;?>">Edit</a>
+					<a href="/board2/delete/<?=$ls->cont_id;?>">Delete</a>
 				</td>
 		</tr>
 

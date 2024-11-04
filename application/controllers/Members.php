@@ -28,10 +28,11 @@ class Members extends CI_Controller {
 			$email = $this->input->post('email');
 			$password = $this->input->post('password');
 
-			$data = array(
+			$data = [
 					'mb_email' => $email,
-					'mb_password' => hash('sha256', $password)
-			);
+					'mb_password' => hash('sha256', $password),
+					'mb_created_at' => date("Y-m-d H:i:s"),	
+			];
 
 			$this->db->insert('member', $data);
 
