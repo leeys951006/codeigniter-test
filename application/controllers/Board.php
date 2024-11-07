@@ -63,13 +63,18 @@ class Board extends CI_Controller {
 
 	public function edit($cont_id)
 	{
-		$postOwnerEmail = $this->board->getPostOwnerEmail($cont_id);
-		$currentUserEmail = $this->session->userdata('me_email');
+		$postOwnerId = $this->board->getPostOwnerId($cont_id);
+		$currentUserId = $this->session->userdata('mb_id');
+			// echo $postOwnerId;
+			// echo $currentUserId;
+			// print_r($postOwnerId);
+			// print_r($currentUserId);
+			echo("postOwnerId: {$postOwnerId}, currentUserId: {$currentUserId}");
+			// var_dump($currentUserId);
 
-		if ($postOwnerEmail !== $currentUserEmail) {
+		if ($postOwnerId != $currentUserId) {
 			show_error('수정 권한이 없습니다.', 403, 'Forbidden');
 		}
-
 
 		$data['edit'] = $this->board->get($cont_id);
 		$this->load->view("board/edit", $data);
@@ -77,27 +82,28 @@ class Board extends CI_Controller {
 
 	public function update($cont_id) 
 	{
-    $this->form_validation->set_rules('cont_title', 'Title', 'required');
-    $this->form_validation->set_rules('cont_detail', 'Contents', 'required');
+	    $this->form_validation->set_rules('cont_title', 'Title', 'required');
+	    $this->form_validation->set_rules('cont_detail', 'Contents', 'required');
 
-    if ($this->form_validation->run()) {
-        $result = $this->board->update($cont_id);
-				redirect('/board');
-        echo json_encode(['success' => true, 'message' => '글이 성공적으로 수정되었습니다.']);
-    } else {
-        echo json_encode(['success' => false, 'message' => '수정에 실패했습니다.']);
-    }
+	    if ($this->form_validation->run()) {
+	        $result = $this->board->update($cont_id);
+					redirect('/board');
+	        echo json_encode(['success' => true, 'message' => '글이 성공적으로 수정되었습니다.']);
+	    } else {
+	        echo json_encode(['success' => false, 'message' => '수정에 실패했습니다.']);
+	    }
 	}
 
 	public function delete($cont_id)
 	{
-    $result = $this->board->delete($cont_id);
+		$postOwnerEmail = $this->board->getPostOwnerEmail($cont_id);
+		$currentUserEmail = $this->session->userdata('mb_email');
 
-    if ($result) {
-        echo json_encode(['success' => true, 'message' => '글이 삭제되었습니다.']);
-    } else {
-        echo json_encode(['success' => false, 'message' => '삭제에 실패했습니다.']);
-    }
+		if ($postOwnerEmail !== $currentUserEmail) {
+			show_error('수정 권한이 없습니다.', 403, 'Forbidden');
+		}
+	    $result = $this->board->delete($cont_id);
+
 	}
 
 		

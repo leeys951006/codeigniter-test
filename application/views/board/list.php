@@ -46,7 +46,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th class="text-center">관리</th>
 				</tr>
 			<?php
-			$currentUserEmail = $this->session->userdata('mb_email');
+			$currentUserId = $this->session->userdata('mb_id');
+			
+
 			foreach ($list as $ls) {
 			?>
 
@@ -62,16 +64,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</td>
 							<td class="table-light">
 								<a href="/board/show/<?=$ls->cont_id;?>" class="btn btn-outline-primary">글보기</a>
-								<?php if ($ls->cont_mb_id === $currentUserEmail): ?>
+								<?
+								// echo print_r($currentUserId),"=",print_r($ls->cont_mb_id),
+								// "print_r($currentUserId) = print_r($ls->cont_mb_id)";
+								print_r("$currentUserId = {$ls->cont_mb_id}");
+								
+								?>
+								<?php if ($ls->cont_mb_id === $currentUserId): ?>
 									<a href="/board/edit/<?=$ls->cont_id;?>" class="btn btn-outline-primary">수정</a>
+
 								<?php endif; ?>
+								<?php if ($ls->cont_mb_id === $currentUserId): ?>
 								<button class="btn btn-outline-danger btn-delete" data-id="<?=$ls->cont_id;?>">
 									삭제
 								</button>
+								<?php endif; ?>
+								<?
+
+								// print_r($currentUserId);
+								// print_r($ls->cont_mb_id);
+								?>
+
 							</td>
 				</tr>
 
 			<?php
+			
 			}
 			?>
 				<tr>

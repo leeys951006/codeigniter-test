@@ -19,7 +19,7 @@ class Board_model extends CI_Model {
         'cont_title' => $this->input->post('cont_title'),
         'cont_detail' => $this->input->post('cont_detail'),
         'cont_created_at' => date("Y-m-d H:i:s"),  
-				'cont_mb_id' => $cont_mb_id  
+		'cont_mb_id' => $cont_mb_id  
     ];
 
     return $this->db->insert('content', $data);
@@ -72,7 +72,7 @@ class Board_model extends CI_Model {
 
 	public function update($cont_id)
 	{
-    $data = [
+    	$data = [
         'cont_title' => $this->input->post('cont_title'),
         'cont_detail' => $this->input->post('cont_detail'),
         'cont_updated_at' => date("Y-m-d H:i:s"),
@@ -83,7 +83,7 @@ class Board_model extends CI_Model {
 
 	public function delete($cont_id)
 	{
-    return $this->db->delete("content", array('cont_id' => $cont_id));
+    	return $this->db->delete("content", array('cont_id' => $cont_id));
 	}
 
 	public function getPostOwnerEmail($cont_id) {
@@ -93,6 +93,19 @@ class Board_model extends CI_Model {
 		$this->db->where('cont_id', $cont_id);
 		$query = $this->db->get();
 		
-		return $query->row()->mb_email;
+		$result = $query->row();
+
+   		return $result ? $result->mb_email : null;
 	}
+
+	public function getPostOwnerId($cont_id) {
+		$this->db->select('cont_mb_id');
+		$this->db->from('content');
+		$this->db->where('cont_id', $cont_id);
+		$query = $this->db->get();
+		
+		$result = $query->row();
+
+   		return $result ? $result->cont_mb_id : null;
+	}	
 }

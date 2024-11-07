@@ -91,7 +91,8 @@ class Members extends CI_Controller {
 			}
 
 			$data = array(
-				'mb_email' => $members->mb_email
+				'mb_email' => $members->mb_email,
+				'mb_id' => $members->mb_id
 			);
 
 			$this->session->set_userdata($data);

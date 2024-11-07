@@ -6,7 +6,7 @@ class Board2 extends CI_Controller {
   public function __construct() 
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(['form_validation' ,'session']);
 
 		$this->load->model('Board2_model', 'board2');
 	}
@@ -15,7 +15,7 @@ class Board2 extends CI_Controller {
   {
 		$this->load->library('pagination');
 
-		$config['base_url'] = '/board';
+		$config['base_url'] = '/board2';
 		$config['total_rows'] = $this->board2->getAll('count', 0, 0);
 		$config['per_page'] = 3;
 		$config['uri_segment'] = 2;
@@ -26,7 +26,7 @@ class Board2 extends CI_Controller {
 
 		$data['pages'] = $this->pagination->create_links();
 		$data['list'] = $this->board2->getAll('all', $config['per_page'], $page);
-		$this->load->view('board/list', $data);
+		$this->load->view('board2/list', $data);
   }
 
   public function create()
