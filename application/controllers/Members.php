@@ -82,10 +82,12 @@ class Members extends CI_Controller {
 
 			if(!$members) {
 				echo "맴버가 존재하지 않습니다.";
+				return;
 			} 
 
 			if(!hash('sha256', $password) == $members->mb_password) {
 				echo "잘못된 계정 정보 입니다. 다시 입력해주세요.";
+				return;
 			}
 
 			$data = array(
@@ -93,6 +95,11 @@ class Members extends CI_Controller {
 			);
 
 			$this->session->set_userdata($data);
+
+			// $this->session->set_userdata([
+			// 	'mb_email' => $member->mb_email,
+			// 	'mb_id' => $member->mb_id // mb_id 추가
+			// ]);
 			redirect('/');
 		}
 	}

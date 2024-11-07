@@ -24,24 +24,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				          <a class="nav-link car-maint" href="/board2">게시판2</a>
 				        </li>
 					</div>
-					<button type="button" class="btn btn-primary">
-   			 	<a class="Login_button text-white text-decoration-none" href="/members/login">Login</a>
-					</button>
+
+
+					<a href="/members/join" class="text-black text-decoration-none mx-3">회원가입</a>
+					<!-- 로그인, 로그아웃 버튼 -->
+					<?php if ($this->session->userdata('mb_email')): ?>
+						<!-- <span><?php echo $this->session->userdata('mb_email'); ?></span> -->
+						<a class="Logout_button text-white text-decoration-none btn btn-danger" href="/members/logout">Logout</a>
+					<?php else: ?>
+						<a class="Login_button text-white text-decoration-none btn btn-primary" href="/members/login">Login</a>
+					<?php endif; ?>
 			</nav>
 			<!-- <div class="main-page vw-100 vh-100 bg-white">
 			</div> -->
-		</header>
-
-		<!-- <a href="/board">게시판</a> -->
-		<?php echo $this->session->userdata('mb_email'); ?>
-		
+		</header>	
 	</div>
-
-	
-	
-
-
-
 
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -17,11 +17,12 @@ class Board extends CI_Controller {
 
 	public function index() 
 	{
+		// $this->load->view('Header');
 		$this->load->library('pagination');
 
 		$config['base_url'] = '/board';
 		$config['total_rows'] = $this->board->getAll('count', 0, 0);
-		$config['per_page'] = 3;
+		$config['per_page'] = 10;
 		$config['uri_segment'] = 2;
 
 		$this->pagination->initialize($config);
@@ -30,6 +31,7 @@ class Board extends CI_Controller {
 
 		$data['pages'] = $this->pagination->create_links();
 		$data['list'] = $this->board->getAll('all', $config['per_page'], $page);
+
 		$this->load->view('board/list', $data);
 	}
 
@@ -40,16 +42,16 @@ class Board extends CI_Controller {
 
 	public function make() 
 	{
-		$this->form_validation->set_rules('cont_title', 'Title', 'required');
-		$this->form_validation->set_rules('cont_detail', 'Contents', 'required');
-
-		if($this->form_validation->run())
-		{
-			$this->board->make();
-			redirect('/board');
-		} else {
-			echo "Error";
-		}
+			$this->form_validation->set_rules('cont_title', 'Title', 'required');
+			$this->form_validation->set_rules('cont_detail', 'Contents', 'required');
+	
+			if ($this->form_validation->run()) {
+					$result = $this->board->make();
+					redirect('/board');
+					echo json_encode(['success' => true, 'message' => '글이 성공적으로 저장되었습니다.']);
+			} else {
+					echo json_encode(['success' => false, 'message' => '필수 항목을 채워주세요.']);
+			}
 	}
 
 	public function show($cont_id)
@@ -61,35 +63,46 @@ class Board extends CI_Controller {
 
 	public function edit($cont_id)
 	{
-		$data['edit'] = $this->board->get($cont_id);
+		$postOwnerEmail = $this->board->getPostOwnerEmail($cont_id);
+		$currentUserEmail = $this->session->userdata('me_email');
 
+		if ($postOwnerEmail !== $currentUserEmail) {
+			show_error('수정 권한이 없습니다.', 403, 'Forbidden');
+		}
+
+
+		$data['edit'] = $this->board->get($cont_id);
 		$this->load->view("board/edit", $data);
 	}
 
 	public function update($cont_id) 
 	{
-		$this->form_validation->set_rules('cont_title', 'Title', 'required');
-		$this->form_validation->set_rules('cont_detail', 'Contents', 'required');
+    $this->form_validation->set_rules('cont_title', 'Title', 'required');
+    $this->form_validation->set_rules('cont_detail', 'Contents', 'required');
 
-		if($this->form_validation->run())
-		{
-			$this->board->update($cont_id);
-			redirect('/board');
-		} else {
-			echo "Error";
-		}
+    if ($this->form_validation->run()) {
+        $result = $this->board->update($cont_id);
+				redirect('/board');
+        echo json_encode(['success' => true, 'message' => '글이 성공적으로 수정되었습니다.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => '수정에 실패했습니다.']);
+    }
 	}
 
 	public function delete($cont_id)
 	{
-		$item = $this->board->delete($cont_id);
+    $result = $this->board->delete($cont_id);
 
-		redirect("/board");
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => '글이 삭제되었습니다.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => '삭제에 실패했습니다.']);
+    }
 	}
 
 		
 
-		public function comments() 
+	public function comments()
 	{
 		$cont_id = $this->input->post('cont_id');
 		$this->form_validation->set_rules('com_detail', 'Comment', 'required');
@@ -102,5 +115,6 @@ class Board extends CI_Controller {
 			echo "Error";
 		}
 	}
+
 
 }
